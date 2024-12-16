@@ -150,13 +150,68 @@ docker logs id
 ```bash
 https://www.prisma.io/
 
+npx prisma migrate dev
+
 npx prisma migrate dev --name init
 
 npx prisma --help
+
+npx prisma studio: view database
 ```
 
 ## Swagger
 
 ```
 
+```
+
+## Argon2
+
+```bash
+npm install argon2: Password hashing using Argon2 algorithm
+
+```
+
+## class-validator and class class-transformer
+
+```bash
+Client Request → JSON Body → ValidationPipe
+    |                             |
+    v                             v
+class-transformer      →  Chuyển thành class instance
+    |                             |
+    v                             v
+class-validator        →  Xác thực dữ liệu trong class
+    |                             |
+    v                             v
+Controller             ←  Dữ liệu đã xác thực (DTO instance)
+
+1. Khả năng kiểm soát và mở rộng dữ liệu dễ dàng hơn.
+2. Kết hợp với class-validator để xác thực dữ liệu.
+    - class-validator chỉ hoạt động với class instance chứ không với plain object.
+3. Lọc bỏ dữ liệu thừa hoặc không mong muốn, giúp bảo mật hơn.
+4. Tính nhất quán và an toàn trong việc xử lý dữ liệu.
+5. Code rõ ràng, bảo trì dễ dàng và tuân theo OOP.
+```
+
+## instance in OOP
+
+```bash
+- instance: là một biểu hiện cụ thể của một class
+
+// Tạo một instance từ class
+const person1 = new Person('Alice', 25);
+
+Tầm quan trọng của Instance trong OOP
+Trừu tượng hóa:
+Class cung cấp một khuôn mẫu, còn instance cho phép trừu tượng hóa các đối tượng thực tế trong thế giới thật.
+
+Tái sử dụng mã nguồn:
+Tạo nhiều instance từ một class giúp tái sử dụng logic và giảm bớt việc lặp lại mã nguồn.
+
+Đóng gói (Encapsulation):
+Instance cung cấp khả năng đóng gói dữ liệu và phương thức, đảm bảo rằng trạng thái của một instance không bị thay đổi ngoài ý muốn.
+
+Kế thừa và Đa hình:
+Các instance cũng thừa hưởng hoặc mở rộng các đặc điểm từ class cha, hỗ trợ các khái niệm như kế thừa và đa hình.
 ```
