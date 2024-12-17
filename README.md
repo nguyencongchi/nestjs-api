@@ -157,19 +157,14 @@ npx prisma migrate dev --name init
 npx prisma --help
 
 npx prisma studio: view database
-```
 
-## Swagger
-
-```
-
+npx prisma db seed --preview-feature
 ```
 
 ## Argon2
 
 ```bash
 npm install argon2: Password hashing using Argon2 algorithm
-
 ```
 
 ## class-validator and class class-transformer
@@ -214,4 +209,65 @@ Instance cung cấp khả năng đóng gói dữ liệu và phương thức, đ�
 
 Kế thừa và Đa hình:
 Các instance cũng thừa hưởng hoặc mở rộng các đặc điểm từ class cha, hỗ trợ các khái niệm như kế thừa và đa hình.
+```
+
+# jwt (json web token)
+
+```bash
+I. Mục đích
+Được sử dụng phổ biến trong cơ chế authentication (xác thực) và authorization (ủy quyền).
+
+II. Thành phần
+1. Header: Chứa metadata mô tả về token.
+{
+  "alg": "HS256",   // Thuật toán mã hóa (e.g., HMAC SHA256, RSA, etc.)
+  "typ": "JWT"      // Loại token (luôn là "JWT")
+}
+
+2. Payload: Chứa dữ liệu (claims) của token. Đây là phần mà ứng dụng lưu trữ các thông tin như user ID, quyền truy cập, hoặc bất kỳ dữ liệu nào cần thiết.
+{
+  "userId": "1234567890",
+  "role": "admin",
+  "iat": 1644235600  // Thời điểm tạo token (Unix timestamp)
+}
+
+Registered Claims: Là các claims chuẩn theo RFC 7519 như:
+iss (issuer): Ai là người phát hành token.
+sub (subject): Chủ thể của token.
+aud (audience): Đối tượng của token.
+exp (expiration): Token hết hạn lúc nào.
+iat (issued at): Thời gian token được phát hành.
+Public Claims: Dữ liệu công khai do người dùng định nghĩa (e.g., role, userId).
+Private Claims: Dữ liệu riêng dùng để giao tiếp giữa các bên.
+
+3. Signature: Phần bảo mật giúp xác thực token không bị thay đổi. Được tạo bằng cách ký vào header và payload bằng thuật toán và một secret key.
+signature = HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload),
+  secret
+)
+
+III. Hoạt động
+1. Người dùng (Client) gửi thông tin đăng nhập đến Server:
+   - [Client] -> POST /login {username, password}
+
+2. Server kiểm tra thông tin đăng nhập:
+   - Nếu thông tin chính xác:
+      a. Tạo JWT (gồm Header, Payload, và Signature).
+      b. Trả JWT cho Client.
+   - Nếu thông tin sai: Trả lỗi 401 (Unauthorized).
+
+3. Client lưu JWT (thường trong Local Storage hoặc Cookie).
+
+4. Client gửi yêu cầu tới Server kèm JWT trong Header:
+   - [Client] -> GET /protected-resource
+     Header: Authorization: Bearer <JWT>
+
+5. Server kiểm tra JWT:
+   a. Giải mã và kiểm tra tính hợp lệ của chữ ký (Signature).
+   b. Kiểm tra thời gian hết hạn (Expiration, `exp`).
+   c. Nếu hợp lệ: Cho phép truy cập tài nguyên.
+   d. Nếu không hợp lệ: Trả lỗi 403 (Forbidden).
+
+6. Server trả về dữ liệu yêu cầu hoặc thông báo lỗi:
+   - [Server] -> 200 OK (trả dữ liệu) hoặc 403 Forbidden.
 ```
