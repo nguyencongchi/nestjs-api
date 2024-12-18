@@ -124,7 +124,7 @@ function: Module trong NestJS đóng vai trò như một container để tổ ch
 ```bash
 # 4. generate controller:
 
-nest g controller controllername
+nest g controller controllername --no-spec
 ```
 
 ```bash
@@ -156,7 +156,7 @@ npx prisma migrate dev --name init
 
 npx prisma --help
 
-npx prisma studio: view database
+npx prisma studio ---- view database
 
 npx prisma db seed --preview-feature
 ```
@@ -270,4 +270,68 @@ III. Hoạt động
 
 6. Server trả về dữ liệu yêu cầu hoặc thông báo lỗi:
    - [Server] -> 200 OK (trả dữ liệu) hoặc 403 Forbidden.
+
+IV. install
+npm install --save @nestjs/jwt
+```
+
+# passport-jwt jwt
+
+```bash
+I. passport-jwt là một module giúp tích hợp passport với JWT.
+
+II. Cài đặt
+$ npm install --save @nestjs/passport passport passport-local
+$ npm install --save-dev @types/passport-local
+$ npm install passport-jwt
+
+III. Hoạt động
+[Client]
+   |
+   | 1. Gửi thông tin đăng nhập (username/password)
+   V
+[AuthController (/auth/login)]
+   |
+   | 2. Gọi AuthService để xác thực thông tin đăng nhập
+   V
+[AuthService]
+   |
+   | 3. Nếu thông tin hợp lệ, tạo JWT Token bằng @nestjs/jwt
+   |    - Tạo payload (username, userId, etc.)
+   |    - Mã hóa payload để tạo access_token
+   V
+[JWT Module]
+   |
+   | 4. Trả JWT Token cho Client (Response)
+   V
+[Client]
+   |
+   | 5. Gửi yêu cầu đến tài nguyên bảo vệ (Protected Resource)
+   |    - Đính kèm JWT Token trong Header (Authorization: Bearer <token>)
+   V
+[ProtectedController (/protected)]
+   |
+   | 6. @UseGuards(AuthGuard('jwt')) được kích hoạt
+   V
+[PassportModule (AuthGuard)]
+   |
+   | 7. AuthGuard gọi JwtStrategy để kiểm tra tính hợp lệ của JWT Token
+   |    - Lấy token từ header
+   |    - Giải mã token bằng @nestjs/jwt (xác thực chữ ký và thời hạn)
+   V
+[JwtStrategy]
+   |
+   | 8. Nếu token hợp lệ, trả về thông tin người dùng (payload)
+   |    - Truyền thông tin người dùng vào request object (req.user)
+   V
+[ProtectedController]
+   |
+   | 9. Xử lý yêu cầu, trả về tài nguyên hoặc kết quả
+   V
+[Client]
+   |
+   | 10. Nhận phản hồi từ server (Response)
+
+web: https://www.passportjs.org/packages/passport-jwt/
+jwt: https://jwt.io/#debugger-io
 ```
