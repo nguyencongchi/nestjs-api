@@ -335,3 +335,26 @@ III. Hoạt động
 web: https://www.passportjs.org/packages/passport-jwt/
 jwt: https://jwt.io/#debugger-io
 ```
+
+# e2e tests with pactumJs
+
+```bash
+Free & OpenSource REST API Testing Tool for all levels in a Test Pyramid
+
+install
+   -  yarn add -D pactum
+   -  npm install -D pactum
+document
+   -  https://pactumjs.github.io/
+```
+
+# yarn
+
+```bash
+install
+   - npm install --global yarn
+version
+   - yarn --version
+
+yarn add -D dotenv-cli
+```
