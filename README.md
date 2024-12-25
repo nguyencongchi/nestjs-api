@@ -358,3 +358,46 @@ version
 
 yarn add -D dotenv-cli
 ```
+
+# Client --> [API Request] --> Server
+
+```bash
+   - HTTP Method: POST
+   - URL: /bookmarks
+   - Headers:
+      Authorization: Bearer <token>
+   - Body: { "title": "My Bookmark", "url": "https://example.com" }
+
+
+   1. Guard (`JwtGuard`) kích hoạt:
+   - @UseGuards(JwtGuard) bảo vệ route `/bookmarks`.
+   - Guard kiểm tra `Authorization` header có Bearer Token.
+   - Gọi `JwtStrategy` để xác thực token.
+
+
+   2. JwtStrategy xác thực token:
+   - Lấy token từ `Authorization` header.
+   - Giải mã token với `JWT_SECRET`.
+   - Nếu token hợp lệ:
+       - Trích xuất payload từ token, ví dụ: { sub: 1, email: 'user@example.com' }.
+       - Gắn payload vào request.user:
+           request.user = { id: 1, email: 'user@example.com' }
+   - Nếu token không hợp lệ:
+       - Trả về lỗi: 401 Unauthorized.
+
+
+   3. Controller xử lý request:
+   - Request được cho phép đi vào controller bởi Guard.
+   - Controller nhận request với thông tin user đã được gắn vào request.user.
+   - `@GetUser` decorator được sử dụng để lấy thông tin từ request.user.
+
+
+   4. @GetUser decorator:
+   - Truy cập request.user.
+   - Nếu sử dụng @GetUser('id'):
+       - Trả về `user.id`, ví dụ: 1.
+   - Nếu sử dụng @GetUser():
+       - Trả về toàn bộ user, ví dụ: { id: 1, email: 'user@example.com' }.
+
+   --> tiếp tục đến với sử lý logic ở Controller
+```
